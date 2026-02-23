@@ -1,9 +1,10 @@
 # Zephyr
 
-**A modern asset authoring tool for 2D game development.**
+**Texture packer and sprite editor with animation support for 2D games.**
 
 Zephyr handles the full sprite workflow in a single tool: organize sprites into a tree, pack them into an atlas, create per-sprite pivot points and hitboxes, define animations, and export a packed texture alongside JSON metadata that drops straight into your game engine.
 
+[![Itch.io](https://img.shields.io/badge/Download-Itch.io-FA5C5C?logo=itch.io&logoColor=white)](https://aristurtledev.itch.io/zephyr)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 ![Rust](https://img.shields.io/badge/Rust-2024%20Edition-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -25,6 +26,10 @@ Select any sprite in the atlas and set its pivot point by dragging the crosshair
 ![Animation Editor](images/animation-editor.gif)
 
 Build animations by dragging sprites from the tree into a frame timeline. Each frame has its own delay, and you can choose too loop the animation and the direction the animation plays in (Forward, Reverse, or PingPong). The preview plays the animation back live as you edit it.
+
+## Download
+
+Pre-built binaries for Windows, macOS, and Linux are available on the [Itch.io page](https://aristurtledev.itch.io/zephyr). Download the archive for your platform, extract it, and run the executable; no installation required.
 
 ## Building from Source
 
