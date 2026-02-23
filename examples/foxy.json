@@ -1,0 +1,586 @@
+{
+  "meta": {
+    "version": "1.0",
+    "app": "https://github.com/aristurtledev/zephyr",
+    "image": "foxy.png",
+    "size": {
+      "w": 128,
+      "h": 128
+    },
+    "format": "RGBA8"
+  },
+  "frames": [
+    {
+      "filename": "player-hurt-2.png",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 23,
+        "h": 26
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 5,
+        "y": 5
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": false
+    },
+    {
+      "filename": "player-hurt-1.png",
+      "frame": {
+        "x": 23,
+        "y": 0,
+        "w": 25,
+        "h": 25
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 4,
+        "y": 6
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": false
+    },
+    {
+      "filename": "player-idle-1.png",
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 18,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 6,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-jump-2.png",
+      "frame": {
+        "x": 66,
+        "y": 0,
+        "w": 21,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 5,
+        "y": 7
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "lookUp.png",
+      "frame": {
+        "x": 87,
+        "y": 0,
+        "w": 21,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 3,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-1.png",
+      "frame": {
+        "x": 108,
+        "y": 0,
+        "w": 18,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 6,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-2.png",
+      "frame": {
+        "x": 0,
+        "y": 26,
+        "w": 20,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 5,
+        "y": 9
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-3.png",
+      "frame": {
+        "x": 20,
+        "y": 26,
+        "w": 18,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 6,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-4.png",
+      "frame": {
+        "x": 38,
+        "y": 26,
+        "w": 18,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 7,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-5.png",
+      "frame": {
+        "x": 56,
+        "y": 26,
+        "w": 17,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 8,
+        "y": 9
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 17.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-run-6.png",
+      "frame": {
+        "x": 73,
+        "y": 26,
+        "w": 18,
+        "h": 22
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 7,
+        "y": 10
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    {
+      "filename": "player-idle-2.png",
+      "frame": {
+        "x": 91,
+        "y": 26,
+        "w": 19,
+        "h": 21
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 5,
+        "y": 11
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 19.0,
+          "h": 21.0
+        }
+      }
+    },
+    {
+      "filename": "player-idle-4.png",
+      "frame": {
+        "x": 0,
+        "y": 48,
+        "w": 19,
+        "h": 21
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 5,
+        "y": 11
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 19.0,
+          "h": 21.0
+        }
+      }
+    },
+    {
+      "filename": "player-jump-1.png",
+      "frame": {
+        "x": 19,
+        "y": 48,
+        "w": 23,
+        "h": 21
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 4,
+        "y": 9
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 23.0,
+          "h": 21.0
+        }
+      }
+    },
+    {
+      "filename": "player-idle-3.png",
+      "frame": {
+        "x": 42,
+        "y": 48,
+        "w": 21,
+        "h": 20
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 3,
+        "y": 12
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 20.0
+        }
+      }
+    },
+    {
+      "filename": "player-crouch-1.png",
+      "frame": {
+        "x": 63,
+        "y": 48,
+        "w": 20,
+        "h": 19
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 8,
+        "y": 13
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 19.0
+        }
+      }
+    },
+    {
+      "filename": "player-crouch-2.png",
+      "frame": {
+        "x": 83,
+        "y": 48,
+        "w": 20,
+        "h": 19
+      },
+      "trimmed": true,
+      "original_size": {
+        "w": 33,
+        "h": 32
+      },
+      "offset": {
+        "x": 8,
+        "y": 13
+      },
+      "pivot_enabled": false,
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 19.0
+        }
+      }
+    }
+  ],
+  "animations": [
+    {
+      "name": "crouch",
+      "frames": [
+        {
+          "sprite_name": "player-crouch-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-crouch-2.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "hurt",
+      "frames": [
+        {
+          "sprite_name": "player-hurt-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-hurt-2.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "idle",
+      "frames": [
+        {
+          "sprite_name": "player-idle-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-2.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-3.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-4.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "jump",
+      "frames": [
+        {
+          "sprite_name": "player-jump-1.png",
+          "delay_ms": 417
+        },
+        {
+          "sprite_name": "player-jump-2.png",
+          "delay_ms": 417
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "look-up",
+      "frames": [
+        {
+          "sprite_name": "lookUp.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "run",
+      "frames": [
+        {
+          "sprite_name": "player-run-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-2.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-3.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-4.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-5.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-6.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    }
+  ]
+}

@@ -1,0 +1,607 @@
+{
+  "version": "1.0",
+  "settings": {
+    "shape_padding": 0,
+    "border_padding": 0,
+    "extrude": 0,
+    "algorithm": "Shelf",
+    "force_square": true,
+    "grid_alignment": 0,
+    "trim_mode": "Trim",
+    "shelf_sort_by": "Best",
+    "shelf_sort_order": "Descending",
+    "texture_format": "Png",
+    "pixel_format": "RGBA8",
+    "alpha_processing": "OptimizeCompression",
+    "png_compression_level": 0,
+    "jpeg_quality": 80,
+    "compression_quality": 80,
+    "generate_mipmaps": false
+  },
+  "tree_root": {
+    "Directory": {
+      "id": 0,
+      "name": "Project",
+      "children": [
+        {
+          "Directory": {
+            "id": 1,
+            "name": "foxy",
+            "children": [
+              {
+                "Directory": {
+                  "id": 2,
+                  "name": "crouch",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 3,
+                        "image": {
+                          "path": "foxy\\crouch\\player-crouch-1.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 4,
+                        "image": {
+                          "path": "foxy\\crouch\\player-crouch-2.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Directory": {
+                  "id": 5,
+                  "name": "hurt",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 6,
+                        "image": {
+                          "path": "foxy\\hurt\\player-hurt-1.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 7,
+                        "image": {
+                          "path": "foxy\\hurt\\player-hurt-2.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Directory": {
+                  "id": 8,
+                  "name": "idle",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 9,
+                        "image": {
+                          "path": "foxy\\idle\\player-idle-1.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 10,
+                        "image": {
+                          "path": "foxy\\idle\\player-idle-2.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 11,
+                        "image": {
+                          "path": "foxy\\idle\\player-idle-3.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 12,
+                        "image": {
+                          "path": "foxy\\idle\\player-idle-4.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Directory": {
+                  "id": 13,
+                  "name": "jump",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 14,
+                        "image": {
+                          "path": "foxy\\jump\\player-jump-1.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 15,
+                        "image": {
+                          "path": "foxy\\jump\\player-jump-2.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Directory": {
+                  "id": 16,
+                  "name": "look-up",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 17,
+                        "image": {
+                          "path": "foxy\\look-up\\lookUp.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Directory": {
+                  "id": 18,
+                  "name": "run",
+                  "children": [
+                    {
+                      "Image": {
+                        "id": 19,
+                        "image": {
+                          "path": "foxy\\run\\player-run-1.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 20,
+                        "image": {
+                          "path": "foxy\\run\\player-run-2.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 21,
+                        "image": {
+                          "path": "foxy\\run\\player-run-3.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 22,
+                        "image": {
+                          "path": "foxy\\run\\player-run-4.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 23,
+                        "image": {
+                          "path": "foxy\\run\\player-run-5.png"
+                        }
+                      }
+                    },
+                    {
+                      "Image": {
+                        "id": 24,
+                        "image": {
+                          "path": "foxy\\run\\player-run-6.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sprite_properties": {
+    "player-idle-3.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 20.0
+        }
+      }
+    },
+    "player-idle-4.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 19.0,
+          "h": 21.0
+        }
+      }
+    },
+    "player-run-2.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-run-3.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-run-4.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-jump-2.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-run-6.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-run-1.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-idle-1.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 18.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-crouch-1.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 19.0
+        }
+      }
+    },
+    "player-run-5.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 17.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-idle-2.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 19.0,
+          "h": 21.0
+        }
+      }
+    },
+    "player-crouch-2.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 20.0,
+          "h": 19.0
+        }
+      }
+    },
+    "player-hurt-1.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": false,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 32.0,
+          "h": 32.0
+        }
+      }
+    },
+    "lookUp.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 21.0,
+          "h": 22.0
+        }
+      }
+    },
+    "player-jump-1.png": {
+      "pivot_enabled": false,
+      "pivot": {
+        "preset": "Center",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "hitbox_enabled": true,
+      "hitbox": {
+        "Rectangle": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 23.0,
+          "h": 21.0
+        }
+      }
+    }
+  },
+  "animations": [
+    {
+      "name": "crouch",
+      "frames": [
+        {
+          "sprite_name": "player-crouch-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-crouch-2.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "hurt",
+      "frames": [
+        {
+          "sprite_name": "player-hurt-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-hurt-2.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "idle",
+      "frames": [
+        {
+          "sprite_name": "player-idle-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-2.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-3.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-idle-4.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "jump",
+      "frames": [
+        {
+          "sprite_name": "player-jump-1.png",
+          "delay_ms": 417
+        },
+        {
+          "sprite_name": "player-jump-2.png",
+          "delay_ms": 417
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "look-up",
+      "frames": [
+        {
+          "sprite_name": "lookUp.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    },
+    {
+      "name": "run",
+      "frames": [
+        {
+          "sprite_name": "player-run-1.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-2.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-3.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-4.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-5.png",
+          "delay_ms": 100
+        },
+        {
+          "sprite_name": "player-run-6.png",
+          "delay_ms": 100
+        }
+      ],
+      "direction": "Forward",
+      "loop_enabled": true
+    }
+  ]
+}

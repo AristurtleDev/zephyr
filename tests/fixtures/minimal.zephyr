@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "settings": {
+    "shape_padding": 2,
+    "border_padding": 2,
+    "extrude": 0,
+    "algorithm": "Shelf",
+    "force_square": true,
+    "grid_alignment": 0,
+    "trim_mode": "Off",
+    "texture_format": "Png",
+    "pixel_format": "RGBA8",
+    "alpha_processing": "OptimizeCompression",
+    "png_compression_level": 0,
+    "jpeg_quality": 80,
+    "compression_quality": 80,
+    "generate_mipmaps": false
+  },
+  "tree_root": {
+    "Directory": {
+      "id": 0,
+      "name": "root",
+      "children": []
+    }
+  },
+  "sprite_properties": {},
+  "animations": []
+}

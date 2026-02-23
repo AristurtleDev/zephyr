@@ -1,0 +1,275 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+
+  # ------------------------------------------------------------------
+  # Windows x86_64
+  # ------------------------------------------------------------------
+  build-windows-x86_64:
+    name: Windows x86_64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Rust
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustup target add x86_64-pc-windows-msvc
+
+      - name: Build
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-windows-x86_64
+          path: target/x86_64-pc-windows-msvc/release/zephyr.exe
+
+
+  # ------------------------------------------------------------------
+  # Windows ARM64
+  # ------------------------------------------------------------------
+  build-windows-arm64:
+    name: Windows ARM64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Rust
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustup target add aarch64-pc-windows-msvc
+
+      - name: Build
+        run: cargo build --release --target aarch64-pc-windows-msvc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-windows-arm64
+          path: target/aarch64-pc-windows-msvc/release/zephyr.exe
+
+
+  # ------------------------------------------------------------------
+  # Linux x86_64
+  # ------------------------------------------------------------------
+  build-linux-x86_64:
+    name: Linux x86_64
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libxcb-render0-dev \
+            libxcb-shape0-dev \
+            libxcb-xfixes0-dev \
+            libxkbcommon-dev \
+            libssl-dev \
+            libglib2.0-dev \
+            libpango1.0-dev \
+            libatk1.0-dev \
+            libgdk-pixbuf-2.0-dev
+
+      - name: Build
+        run: cargo build --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-linux-x86_64
+          path: target/release/zephyr
+
+
+  # ------------------------------------------------------------------
+  # Linux ARM64
+  # ------------------------------------------------------------------
+  build-linux-arm64:
+    name: Linux ARM64
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libxcb-render0-dev \
+            libxcb-shape0-dev \
+            libxcb-xfixes0-dev \
+            libxkbcommon-dev \
+            libssl-dev \
+            libglib2.0-dev \
+            libpango1.0-dev \
+            libatk1.0-dev \
+            libgdk-pixbuf-2.0-dev
+
+      - name: Build
+        run: cargo build --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-linux-arm64
+          path: target/release/zephyr
+
+
+  # ------------------------------------------------------------------
+  # macOS Universal
+  # ------------------------------------------------------------------
+  build-macos:
+    name: macOS Universal
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Rust + targets
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+
+      - name: Build ARM64
+        run: cargo build --release --target aarch64-apple-darwin
+
+      - name: Build x86_64
+        run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Create universal binary
+        run: |
+          lipo -create \
+            target/aarch64-apple-darwin/release/zephyr \
+            target/x86_64-apple-darwin/release/zephyr \
+            -output target/release/zephyr-universal
+
+      - name: Assemble .app bundle
+        run: |
+          APP=Zephyr.app
+          mkdir -p "$APP/Contents/MacOS"
+          mkdir -p "$APP/Contents/Resources"
+
+          cp target/release/zephyr-universal "$APP/Contents/MacOS/zephyr"
+          chmod +x "$APP/Contents/MacOS/zephyr"
+
+          mkdir -p icon.iconset
+          for size in 16 32 128 256 512; do
+            sips -z $size $size src/assets/icon.png --out icon.iconset/icon_${size}x${size}.png
+            double=$((size * 2))
+            sips -z $double $double src/assets/icon.png --out icon.iconset/icon_${size}x${size}@2x.png
+          done
+          iconutil -c icns icon.iconset -o "$APP/Contents/Resources/AppIcon.icns"
+
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [ -z "$VERSION" ] || [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            VERSION=$(grep '^version' Cargo.toml | head -1 | sed 's/.*"\(.*\)"/\1/')
+          fi
+
+          cat > "$APP/Contents/Info.plist" << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+            "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleDisplayName</key>
+            <string>Zephyr</string>
+            <key>CFBundleExecutable</key>
+            <string>zephyr</string>
+            <key>CFBundleIconFile</key>
+            <string>AppIcon</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.zephyr-app.zephyr</string>
+            <key>CFBundleName</key>
+            <string>Zephyr</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${VERSION}</string>
+            <key>CFBundleVersion</key>
+            <string>${VERSION}</string>
+            <key>LSMinimumSystemVersion</key>
+            <string>11.0</string>
+            <key>NSHighResolutionCapable</key>
+            <true/>
+            <key>NSRequiresAquaSystemAppearance</key>
+            <false/>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Package .app as zip
+        run: zip -r --symlinks Zephyr-macOS-universal.zip Zephyr.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-macos-universal
+          path: Zephyr-macOS-universal.zip
+
+  # ------------------------------------------------------------------
+  # GitHub Release
+  # ------------------------------------------------------------------
+  release:
+    name: Create GitHub Release
+    needs:
+      - build-windows-x86_64
+      - build-windows-arm64
+      - build-linux-x86_64
+      - build-linux-arm64
+      - build-macos
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Package release archives
+        run: |
+          cd artifacts
+          zip -j zephyr-windows-x86_64.zip   zephyr-windows-x86_64/zephyr.exe
+          zip -j zephyr-windows-arm64.zip    zephyr-windows-arm64/zephyr.exe
+          tar -czf zephyr-linux-x86_64.tar.gz -C zephyr-linux-x86_64 zephyr
+          tar -czf zephyr-linux-arm64.tar.gz  -C zephyr-linux-arm64  zephyr
+          cp zephyr-macos-universal/Zephyr-macOS-universal.zip .
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            artifacts/zephyr-windows-x86_64.zip
+            artifacts/zephyr-windows-arm64.zip
+            artifacts/zephyr-linux-x86_64.tar.gz
+            artifacts/zephyr-linux-arm64.tar.gz
+            artifacts/Zephyr-macOS-universal.zip

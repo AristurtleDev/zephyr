@@ -1,0 +1,3 @@
+[submodule "external/egui_ltreeview"]
+	path = external/egui_ltreeview
+	url = https://github.com/AristurtleDev/egui_ltreeview.git
