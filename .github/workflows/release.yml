@@ -6,6 +6,11 @@ on:
       - 'v*'
   workflow_dispatch:
 
+env:
+  CARGO_TERM_COLOR: always
+  ITCH_USER: ${{ secrets.ITCH_USER }}
+  ITCH_SLUG: ${{ secrets.ITCH_SLUG }}
+
 jobs:
 
   # ------------------------------------------------------------------
@@ -22,6 +27,7 @@ jobs:
       - name: Setup Rust
         shell: bash
         run: |
+          set -euo pipefail
           rustup toolchain install stable --profile minimal
           rustup default stable
           rustup target add x86_64-pc-windows-msvc
@@ -33,7 +39,6 @@ jobs:
         with:
           name: zephyr-windows-x86_64
           path: target/x86_64-pc-windows-msvc/release/zephyr.exe
-
 
   # ------------------------------------------------------------------
   # Windows ARM64
@@ -49,6 +54,7 @@ jobs:
       - name: Setup Rust
         shell: bash
         run: |
+          set -euo pipefail
           rustup toolchain install stable --profile minimal
           rustup default stable
           rustup target add aarch64-pc-windows-msvc
@@ -60,7 +66,6 @@ jobs:
         with:
           name: zephyr-windows-arm64
           path: target/aarch64-pc-windows-msvc/release/zephyr.exe
-
 
   # ------------------------------------------------------------------
   # Linux x86_64
@@ -75,6 +80,7 @@ jobs:
 
       - name: Setup Rust
         run: |
+          set -euo pipefail
           rustup toolchain install stable --profile minimal
           rustup default stable
 
@@ -101,7 +107,6 @@ jobs:
           name: zephyr-linux-x86_64
           path: target/release/zephyr
 
-
   # ------------------------------------------------------------------
   # Linux ARM64
   # ------------------------------------------------------------------
@@ -115,6 +120,7 @@ jobs:
 
       - name: Setup Rust
         run: |
+          set -euo pipefail
           rustup toolchain install stable --profile minimal
           rustup default stable
 
@@ -141,7 +147,6 @@ jobs:
           name: zephyr-linux-arm64
           path: target/release/zephyr
 
-
   # ------------------------------------------------------------------
   # macOS Universal
   # ------------------------------------------------------------------
@@ -155,6 +160,7 @@ jobs:
 
       - name: Setup Rust + targets
         run: |
+          set -euo pipefail
           rustup toolchain install stable --profile minimal
           rustup default stable
           rustup target add aarch64-apple-darwin x86_64-apple-darwin
@@ -235,10 +241,10 @@ jobs:
           path: Zephyr-macOS-universal.zip
 
   # ------------------------------------------------------------------
-  # GitHub Release
+  # Upload builds to itch.io using butler (only on tag pushes)
   # ------------------------------------------------------------------
-  release:
-    name: Create GitHub Release
+  upload-itch:
+    name: Upload to itch.io
     needs:
       - build-windows-x86_64
       - build-windows-arm64
@@ -247,29 +253,77 @@ jobs:
       - build-macos
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    permissions:
-      contents: write
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      - name: Package release archives
+      - name: Install butler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl unzip zip
+
+          curl -L -o butler.zip "https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default"
+          mkdir -p butler-bin
+          unzip -o butler.zip -d butler-bin
+          chmod +x butler-bin/butler
+          echo "$PWD/butler-bin" >> "$GITHUB_PATH"
+
+          butler version
+
+      - name: Package artifacts for itch.io
         run: |
           cd artifacts
-          zip -j zephyr-windows-x86_64.zip   zephyr-windows-x86_64/zephyr.exe
-          zip -j zephyr-windows-arm64.zip    zephyr-windows-arm64/zephyr.exe
+
+          # Windows: zip
+          zip -j zephyr-windows-x86_64.zip zephyr-windows-x86_64/zephyr.exe
+          zip -j zephyr-windows-arm64.zip  zephyr-windows-arm64/zephyr.exe
+
+          # Linux: tar.gz
           tar -czf zephyr-linux-x86_64.tar.gz -C zephyr-linux-x86_64 zephyr
           tar -czf zephyr-linux-arm64.tar.gz  -C zephyr-linux-arm64  zephyr
+
+          # macOS: zip already produced by build job
           cp zephyr-macos-universal/Zephyr-macOS-universal.zip .
 
-      - name: Create release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-          files: |
-            artifacts/zephyr-windows-x86_64.zip
-            artifacts/zephyr-windows-arm64.zip
-            artifacts/zephyr-linux-x86_64.tar.gz
-            artifacts/zephyr-linux-arm64.tar.gz
-            artifacts/Zephyr-macOS-universal.zip
+      - name: Push to itch.io
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          ITCH_GAME="${ITCH_USER}/${ITCH_SLUG}"
+
+          butler push "artifacts/zephyr-windows-x86_64.zip" "$ITCH_GAME:windows-x86_64" --userversion "$VERSION"
+          butler push "artifacts/zephyr-windows-arm64.zip"  "$ITCH_GAME:windows-arm64"  --userversion "$VERSION"
+
+          butler push "artifacts/zephyr-linux-x86_64.tar.gz" "$ITCH_GAME:linux-x86_64" --userversion "$VERSION"
+          butler push "artifacts/zephyr-linux-arm64.tar.gz"  "$ITCH_GAME:linux-arm64"  --userversion "$VERSION"
+
+          butler push "artifacts/Zephyr-macOS-universal.zip" "$ITCH_GAME:macos-universal" --userversion "$VERSION"
+
+  # ------------------------------------------------------------------
+  # GitHub Release
+  # ------------------------------------------------------------------
+  release:
+    name: Create GitHub Release
+    needs:
+      - upload-itch
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Create Release
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; skipping."
+            exit 0
+          fi
+
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --generate-notes
