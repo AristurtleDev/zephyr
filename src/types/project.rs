@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use super::animation::Animation;
 use super::settings::PackSettings;
 use super::sprite::SpriteProperties;
-use super::tree::TreeNode;
+use super::tree::{NodeId, TreeNode};
 
 // Increment this only when the .zephyr file schema changes in a
 // backwards-incompatible way. It is intentionally decoupled from the
@@ -48,6 +48,11 @@ pub(crate) struct SourceImage {
     pub(crate) trim_offset_x: u32,
     #[serde(skip)]
     pub(crate) trim_offset_y: u32,
+
+    // The NodeId of the tree leaf this image came from. Zero for images not loaded
+    // through the project tree (e.g. CLI). Set by collect_images; not persisted.
+    #[serde(skip)]
+    pub(crate) node_id: NodeId,
 }
 
 fn default_rgba_image() -> RgbaImage {
@@ -72,6 +77,9 @@ pub(crate) struct Placement {
     pub(crate) source_height: u32,
     pub(crate) trim_offset_x: u32,
     pub(crate) trim_offset_y: u32,
+    // The NodeId of the source tree leaf. Not included in serialized atlas output.
+    #[serde(skip)]
+    pub(crate) node_id: NodeId,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -122,6 +130,7 @@ mod tests {
                     source_height: 32,
                     trim_offset_x: 0,
                     trim_offset_y: 0,
+                    node_id: 0,
                 },
             }),
             TreeNode::Image(ImageNode {
@@ -136,6 +145,7 @@ mod tests {
                     source_height: 64,
                     trim_offset_x: 0,
                     trim_offset_y: 0,
+                    node_id: 0,
                 },
             }),
         ];

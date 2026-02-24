@@ -2,17 +2,19 @@
 // Licensed under the MIT license.
 // See LICENSE file in the project root for full license information.
 
-use crate::types::{AlphaProcessing, Placement, SourceImage};
+use crate::types::{AlphaProcessing, NodeId, Placement, SourceImage};
 use image::{RgbaImage, imageops};
 use std::collections::HashMap;
 
 pub(crate) fn create_atlas_texture(placements: &[Placement], images: &[SourceImage], width: u32, height: u32, extrude: u32, alpha_processing: AlphaProcessing) -> RgbaImage {
     let mut atlas = RgbaImage::new(width, height);
 
-    let image_map: HashMap<_, _> = images.iter().map(|img| (img.name.as_str(), img)).collect();
+    // Keyed by NodeId rather than name so that two images with the same filename
+    // but different directory roots remain distinct entries.
+    let image_map: HashMap<NodeId, &SourceImage> = images.iter().map(|img| (img.node_id, img)).collect();
 
     for placement in placements {
-        if let Some(src_img) = image_map.get(placement.name.as_str()) {
+        if let Some(src_img) = image_map.get(&placement.node_id) {
             let processed_image = apply_alpha_processing(&src_img.data, alpha_processing);
 
             if let Err(e) = copy_image_to_atlas(&mut atlas, &processed_image, placement.x, placement.y, extrude) {
@@ -216,6 +218,7 @@ pub(crate) fn apply_trim(images: Vec<SourceImage>) -> Vec<SourceImage> {
                 trim_offset_y: trim_y,
                 name: img.name,
                 path: img.path,
+                node_id: img.node_id,
             }
         })
         .collect()
@@ -270,6 +273,7 @@ mod tests {
             trim_offset_y: 0,
             name: "s".to_string(),
             path: None,
+            node_id: 0,
         };
         let result = apply_trim(vec![img]);
         let out = &result[0];
@@ -297,6 +301,7 @@ mod tests {
             trim_offset_y: 0,
             name: "s".to_string(),
             path: None,
+            node_id: 0,
         };
         let result = apply_trim(vec![img]);
         let out = &result[0];

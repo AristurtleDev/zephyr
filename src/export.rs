@@ -324,6 +324,7 @@ mod tests {
                 source_height: 32,
                 trim_offset_x: 0,
                 trim_offset_y: 0,
+                node_id: 0,
             }],
         };
 
@@ -376,6 +377,7 @@ mod tests {
                     source_height: 32,
                     trim_offset_x: 4,
                     trim_offset_y: 6,
+                    node_id: 0,
                 },
                 Placement {
                     name: "untrimmed".to_string(),
@@ -387,6 +389,7 @@ mod tests {
                     source_height: 32,
                     trim_offset_x: 0,
                     trim_offset_y: 0,
+                    node_id: 0,
                 },
             ],
         };
@@ -417,6 +420,7 @@ mod tests {
                 source_height: 32,
                 trim_offset_x: 0,
                 trim_offset_y: 0,
+                node_id: 0,
             }],
         };
 
