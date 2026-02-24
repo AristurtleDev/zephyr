@@ -24,6 +24,7 @@ pub(crate) fn load_image(path: &Path) -> Result<SourceImage, LoadError> {
         source_height: height,
         trim_offset_x: 0,
         trim_offset_y: 0,
+        node_id: 0,
     })
 }
 

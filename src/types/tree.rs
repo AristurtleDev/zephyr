@@ -42,15 +42,13 @@ impl TreeNode {
     }
 
     pub(crate) fn collect_images(&self) -> Vec<SourceImage> {
-        self.iter_images().map(|img_node| img_node.image.clone()).collect()
-    }
-
-    pub(crate) fn find_image_by_name(&self, name: &str) -> Option<&ImageNode> {
-        self.iter_images().find(|img| img.image.name == name)
-    }
-
-    pub(crate) fn find_image_id_by_name(&self, name: &str) -> Option<NodeId> {
-        self.find_image_by_name(name).map(|img| img.id)
+        self.iter_images()
+            .map(|img_node| {
+                let mut image = img_node.image.clone();
+                image.node_id = img_node.id;
+                image
+            })
+            .collect()
     }
 
     pub(crate) fn reload_images(&mut self) -> (usize, usize) {
@@ -303,6 +301,7 @@ mod tests {
             source_height: 1,
             trim_offset_x: 0,
             trim_offset_y: 0,
+            node_id: 0,
         }
     }
 

@@ -81,24 +81,16 @@ fn render_preview(app: &mut ZephyrApp, ui: &mut Ui) {
 
             let selected_image_ids = collect_selected_image_ids(&app.tree_root, &app.selected_nodes);
 
-            // Pre-compute which placement names are selected so opacity rendering
+            // Pre-compute which placement node_ids are selected so opacity rendering
             // and selection boxes both use the same set without repeating the tree walk.
-            let selected_names: HashSet<String> = if selected_image_ids.is_empty() {
-                HashSet::new()
-            } else {
-                atlas
-                    .placements
-                    .iter()
-                    .filter_map(|p| {
-                        app.tree_root
-                            .find_image_id_by_name(&p.name)
-                            .filter(|id| selected_image_ids.contains(id))
-                            .map(|_| p.name.clone())
-                    })
-                    .collect()
-            };
+            let selected_placement_ids: HashSet<NodeId> = atlas
+                .placements
+                .iter()
+                .filter(|p| selected_image_ids.contains(&p.node_id))
+                .map(|p| p.node_id)
+                .collect();
 
-            draw_atlas_with_opacity(ui, texture, &image_rect, &clip_rect, atlas, &selected_names, display_size);
+            draw_atlas_with_opacity(ui, texture, &image_rect, &clip_rect, atlas, &selected_placement_ids, display_size);
 
             if app.prefs.draw_border {
                 ui.painter()
@@ -106,7 +98,7 @@ fn render_preview(app: &mut ZephyrApp, ui: &mut Ui) {
                     .rect_stroke(image_rect, 0.0, (1.0, Color32::WHITE), egui::StrokeKind::Outside);
             }
 
-            draw_selection_boxes(atlas, ui, &image_rect, &clip_rect, display_size, &selected_names);
+            draw_selection_boxes(atlas, ui, &image_rect, &clip_rect, display_size, &selected_placement_ids);
 
             if response.drag_started_by(egui::PointerButton::Primary)
                 && let Some(start_pos) = response.interact_pointer_pos()
@@ -218,10 +210,10 @@ fn draw_atlas_with_opacity(
     image_rect: &Rect,
     clip_rect: &Rect,
     atlas: &crate::types::PackedAtlas,
-    selected_names: &HashSet<String>,
+    selected_ids: &HashSet<NodeId>,
     display_size: egui::Vec2,
 ) {
-    if selected_names.is_empty() {
+    if selected_ids.is_empty() {
         ui.painter()
             .with_clip_rect(*clip_rect)
             .image(texture.id(), *image_rect, Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
@@ -241,7 +233,7 @@ fn draw_atlas_with_opacity(
     );
 
     for placement in &atlas.placements {
-        if selected_names.contains(&placement.name) {
+        if selected_ids.contains(&placement.node_id) {
             let u_min = placement.x as f32 / atlas_width;
             let v_min = placement.y as f32 / atlas_height;
             let u_max = (placement.x + placement.width) as f32 / atlas_width;
@@ -277,10 +269,9 @@ fn handle_sprite_double_click(app: &mut ZephyrApp, click_pos: Pos2, image_rect: 
                 && atlas_x < placement.x + placement.width
                 && atlas_y >= placement.y
                 && atlas_y < placement.y + placement.height
-                && let Some(id) = app.tree_root.find_image_id_by_name(&placement.name)
             {
                 app.selected_nodes.clear();
-                app.selected_nodes.insert(id);
+                app.selected_nodes.insert(placement.node_id);
                 app.current_tab = AppTab::SpriteEditor;
                 break;
             }
@@ -304,10 +295,8 @@ fn handle_sprite_click(app: &mut ZephyrApp, click_pos: Pos2, image_rect: &Rect, 
     if let Some(atlas) = &app.atlas {
         for placement in &atlas.placements {
             if atlas_x >= placement.x && atlas_x < placement.x + placement.width && atlas_y >= placement.y && atlas_y < placement.y + placement.height {
-                if let Some(id) = app.tree_root.find_image_id_by_name(&placement.name) {
-                    clicked_id = Some(id);
-                    break;
-                }
+                clicked_id = Some(placement.node_id);
+                break;
             }
         }
     }
@@ -350,10 +339,8 @@ fn handle_drag_selection(app: &mut ZephyrApp, drag_rect: Rect, image_rect: &Rect
                 Pos2::new((placement.x + placement.width) as f32, (placement.y + placement.height) as f32),
             );
 
-            if sprite_rect.intersects(selection_rect_atlas)
-                && let Some(id) = app.tree_root.find_image_id_by_name(&placement.name)
-            {
-                selected_ids.insert(id);
+            if sprite_rect.intersects(selection_rect_atlas) {
+                selected_ids.insert(placement.node_id);
             }
         }
     }
@@ -367,12 +354,12 @@ fn handle_drag_selection(app: &mut ZephyrApp, drag_rect: Rect, image_rect: &Rect
     }
 }
 
-fn draw_selection_boxes(atlas: &crate::types::PackedAtlas, ui: &mut Ui, image_rect: &Rect, clip_rect: &Rect, display_size: egui::Vec2, selected_names: &HashSet<String>) {
+fn draw_selection_boxes(atlas: &crate::types::PackedAtlas, ui: &mut Ui, image_rect: &Rect, clip_rect: &Rect, display_size: egui::Vec2, selected_ids: &HashSet<NodeId>) {
     let display_pixels_per_atlas_pixel = display_size.x / atlas.width as f32;
     let image_min = image_rect.min;
 
     for placement in &atlas.placements {
-        if selected_names.contains(&placement.name) {
+        if selected_ids.contains(&placement.node_id) {
             let x = placement.x as f32 * display_pixels_per_atlas_pixel;
             let y = placement.y as f32 * display_pixels_per_atlas_pixel;
             let w = placement.width as f32 * display_pixels_per_atlas_pixel;

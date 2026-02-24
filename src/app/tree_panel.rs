@@ -453,6 +453,7 @@ mod tests {
                 source_height: 1,
                 trim_offset_x: 0,
                 trim_offset_y: 0,
+                node_id: 0,
             },
         })
     }

@@ -199,7 +199,7 @@ fn run_export(args: &[String]) -> i32 {
         return 1;
     }
 
-    let images = load_images(&image_paths);
+    let mut images = load_images(&image_paths);
 
     if images.is_empty() {
         eprintln!("error: no images could be loaded");
@@ -212,6 +212,12 @@ fn run_export(args: &[String]) -> i32 {
             image_paths.len() - images.len(),
             image_paths.len()
         );
+    }
+
+    // Assign sequential node_ids so that images with the same filename but
+    // different paths remain distinct when keyed by id inside create_atlas_texture.
+    for (i, img) in images.iter_mut().enumerate() {
+        img.node_id = i + 1;
     }
 
     let images_to_pack = if parsed.settings.trim_mode == TrimMode::Off {

@@ -169,6 +169,7 @@ fn pack_shelf(images: &[SourceImage], atlas_width: u32, atlas_height: u32, setti
                 source_height: img.source_height,
                 trim_offset_x: img.trim_offset_x,
                 trim_offset_y: img.trim_offset_y,
+                node_id: img.node_id,
             });
 
             current_x += new_slot_width;
@@ -197,6 +198,7 @@ fn pack_shelf(images: &[SourceImage], atlas_width: u32, atlas_height: u32, setti
             source_height: img.source_height,
             trim_offset_x: img.trim_offset_x,
             trim_offset_y: img.trim_offset_y,
+            node_id: img.node_id,
         });
 
         current_x += slot_width;
@@ -316,6 +318,7 @@ fn pack_maxrects(images: &[SourceImage], atlas_width: u32, atlas_height: u32, se
                 source_height: img.source_height,
                 trim_offset_x: img.trim_offset_x,
                 trim_offset_y: img.trim_offset_y,
+                node_id: img.node_id,
             });
 
             // Split all free rectangles that intersect with the placed rectangle
@@ -432,6 +435,7 @@ mod tests {
             source_height: size,
             trim_offset_x: 0,
             trim_offset_y: 0,
+            node_id: 0,
         }
     }
 
@@ -456,6 +460,7 @@ mod tests {
             source_height: height,
             trim_offset_x: 0,
             trim_offset_y: 0,
+            node_id: 0,
         }
     }
 
